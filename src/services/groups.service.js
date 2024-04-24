@@ -4,7 +4,15 @@ const Service = (dbClient) =>{
     const repository=Repository(dbClient);
 
     const getAll = async () => {
-       return await repository.getAll();
+       return await repository.getAll(); 
+    }
+
+    const getById = async (id) => {
+        return await repository.getById(id); 
+     }
+    return{
+        getAll,
+        getById
     }
 }
 

@@ -1,5 +1,6 @@
+// require router del paquete express-promise-router
 import pg from 'pg'
-const { Pool } = pg
+const { Pool } = pg;
 const pool = new Pool({
     // same as
     // user: process.env.PGUSER,
@@ -12,6 +13,7 @@ const pool = new Pool({
 const requireTransactionMap = {
     POST: true,
     PUT: true,
+    DELETE: true,
 }
 
 const connectDatabase = async (req,res,next) => {
@@ -27,7 +29,6 @@ const connectDatabase = async (req,res,next) => {
         console.info('database connected');
         next();
     } catch (err) {
-
         res.status(503).end();
         next(err);
     }
@@ -37,10 +38,9 @@ const commitDatabase = async (req,_res,next) => {
     if (req.doTransaction) {
         await req.dbClient.query('COMMIT');
     }
-        req.dbClient.release();
-        req.dbClient = undefined;
-        req.doTransaction = undefined;
-    
+    req.dbClient.release();
+    req.dbClient = undefined;
+    req.doTransaction = undefined;
     console.info('database disconnected');
     next();
 }
