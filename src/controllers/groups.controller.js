@@ -17,9 +17,21 @@ const Controller = () => {
                     res.status(404).end();
                 }
             }
+
+            const deleteById = async (req, res)=>{
+
+                const service = Service(req.dbClient)
+                const  deleted = await service.deleteById(req.params.id);
+                if(deleted){
+                    res.status(200).end();
+                }else{
+                    res.status(404).end();
+                }
+            }
             return{
                 getAll,
-                getById
+                getById,
+                deleteById
     
             }
         }

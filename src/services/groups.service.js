@@ -10,9 +10,14 @@ const Service = (dbClient) =>{
     const getById = async (id) => {
         return await repository.getById(id); 
      }
+
+     const deleteById = async (id) => {
+        return await repository.deleteById(id); 
+     }
     return{
         getAll,
-        getById
+        getById,
+        deleteById
     }
 }
 
