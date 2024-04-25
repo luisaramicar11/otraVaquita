@@ -11,6 +11,7 @@ const GroupsRouter = () =>{
 
    router.get("/groups", continuator(controller.getAll));
    router.get("/groups/:id", continuator(controller.getById));
+   router.post("/groups", continuator(controller.create));
    router.delete("/groups/:id", continuator(controller.deleteById));
    return router
 }

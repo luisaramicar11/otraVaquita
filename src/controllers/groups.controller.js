@@ -28,11 +28,19 @@ const Controller = () => {
                     res.status(404).end();
                 }
             }
+
+            const create = async (req, res)=>{
+                const service = Service(req.dbClient)
+                const group=req.body;
+                const createdGroup=await service.create(group)
+                res.status(201).json(createdGroup); 
+            }
+
             return{
                 getAll,
                 getById,
-                deleteById
-    
+                deleteById,
+                create
             }
         }
     
