@@ -1,6 +1,9 @@
 // require router del paquete express-promise-router
 import pg from 'pg'
+//import "dotenv/config";
 const { Pool } = pg;
+//cantidad de coneciones disponibles para liberar una conexion y que otro lo pueda usar
+//saco una nueva instancia
 const pool = new Pool({
     // same as
     // user: process.env.PGUSER,
