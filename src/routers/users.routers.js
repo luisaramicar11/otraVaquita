@@ -1,7 +1,8 @@
 import Router from "express-promise-router";
 import Controller from "../controllers/users.controller.js"
 import continuator from "../lib/continue.decorator.js";
-
+import passport from "passport";
+import "../lib/passport.config.js"
 
 const usersRouter = () =>{
 
@@ -9,11 +10,11 @@ const usersRouter = () =>{
    const router=Router();
    const controller=Controller();
 
-   router.get("/users", continuator(controller.getAll));
-   router.get("/users/:id", continuator(controller.getById));
-   router.post("/users", continuator(controller.create));
-   router.delete("/users/:id", continuator(controller.deleteById));
-   router.put("/users/:id", continuator(controller.fullUpdateById));
+   router.get("/users", passport.authenticate("jwt", { session: false }), continuator(controller.getAll));
+   router.get("/users/:id", passport.authenticate("jwt", { session: false }), continuator(controller.getById));
+   router.post("/users", passport.authenticate("jwt", { session: false }), continuator(controller.create));
+   router.delete("/users/:id", passport.authenticate("jwt", { session: false }), continuator(controller.deleteById));
+   router.put("/users/:id", passport.authenticate("jwt", { session: false }), continuator(controller.fullUpdateById));
    return router
 }
 

@@ -12,6 +12,10 @@ const Service = (dbClient) =>{
         return await repository.getById(id); 
      }
 
+     const getByEmail = async (email) => {
+        return await repository.getByEmail(email); 
+     }
+
      const deleteById = async (id) => {
         return await repository.deleteById(id); 
      }
@@ -65,6 +69,7 @@ const Service = (dbClient) =>{
     return{
         getAll,
         getById,
+        getByEmail,
         deleteById,
         create,
         fullUpdateById

@@ -7,10 +7,11 @@ const AuthRouter = () =>{
 
     //Creo una instancia del enrutador express-promise-router llamado router
    const router=Router();
-   const controllerAuth=Controller();
+   const controllerAuth=ControllerAuth();
 
-
-   router.post("/auth", continuator(controllerAuth.create));
+   router.post("/auth/login", continuator(controllerAuth.login));
+   //router.get("/auth/health", (req, res)=>{res.status(200).json()})
+   console.log("********************************")
    
    return router
 }

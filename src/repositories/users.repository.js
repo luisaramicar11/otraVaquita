@@ -1,5 +1,6 @@
 const GET_ALL=`SELECT id, name, email, password FROM users`;
 const GET_BY_ID=`${GET_ALL} WHERE id= $1`;
+const GET_BY_EMAIL=`${GET_ALL} WHERE email= $1`;
 const COUNT_BY_NAME=`SELECT COUNT(*) as count FROM users WHERE name=$1`;
 const DELETE_BY_ID=`DELETE FROM users WHERE id=$1`;
 const CREATE=`INSERT INTO users (name, email, password, createdAt) VALUES ($1,$2,$3,$4) RETURNING id, name, email,  password, createdAt`;
@@ -14,6 +15,12 @@ const getAll= async ()  => {
 
 const getById= async (id)  => {
   const result= await dbClient.query(GET_BY_ID,[id]);
+  return result.rows[0];
+};
+
+const getByEmail= async (email)  => {
+  const result= await dbClient.query(GET_BY_EMAIL,[email]);
+  console.log(result);
   return result.rows[0];
 };
 
@@ -55,6 +62,7 @@ const countByNameNotId= async (name, id)  => {
 return{
     getAll,
     getById,
+    getByEmail,
     deleteById,
     create,
     countByName,
