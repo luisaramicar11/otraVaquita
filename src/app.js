@@ -6,8 +6,10 @@ import mainRouter from './routers/async.router.js'
 
 //instancia de la aplicacion express
 const app=express();
+
 //puerto donde corre
 const port=process.env.PORT || 3000;
+app.use(cors());
 //para manejar los body de json
 app.use(express.json())
 app.use(mainRouter())

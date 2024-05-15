@@ -1,12 +1,10 @@
-const GET_ALL=`SELECT id, name, email, password FROM users`;
+const GET_ALL=`SELECT id, name, color FROM groups`;
 const GET_BY_ID=`${GET_ALL} WHERE id= $1`;
-const GET_BY_EMAIL=`${GET_ALL} WHERE email= $1`;
-const COUNT_BY_NAME=`SELECT COUNT(*) as count FROM users WHERE name=$1`;
-const DELETE_BY_ID=`DELETE FROM users WHERE id=$1`;
-const CREATE=`INSERT INTO users (name, email, password, createdAt) VALUES ($1,$2,$3,$4) RETURNING id, name, email,  password, createdAt`;
-const FULL_UPDATE_BY_ID=`UPDATE users SET name=$1, email=$2, password=$3 WHERE id=$4`;
-const COUNT_BY_NAME_NOT_ID=`SELECT COUNT(*) FROM users WHERE name=$1 and id <> $2`;
-
+const COUNT_BY_NAME=`SELECT COUNT(*) as count FROM groups WHERE name=$1`;
+const DELETE_BY_ID=`DELETE FROM groups WHERE id=$1`;
+const CREATE=`INSERT INTO groups (name, color, ownerUserId, createdAt) VALUES ($1,$2,$3,$4) RETURNING id, name, color,  ownerUserId, createdAt`;
+const FULL_UPDATE_BY_ID=`UPDATE groups SET name=$1, color=$2 WHERE id=$3`;
+const COUNT_BY_NAME_NOT_ID=`SELECT COUNT(*) FROM groups WHERE name=$1 and id <> $2`
 const Repository=(dbClient)=>{
 const getAll= async ()  => {
   const result= await dbClient.query(GET_ALL);
@@ -18,20 +16,14 @@ const getById= async (id)  => {
   return result.rows[0];
 };
 
-const getByEmail= async (email)  => {
-  const result= await dbClient.query(GET_BY_EMAIL,[email]);
-  console.log("consulta base", result);
-  return result.rows[0];
-};
-
 const deleteById = async (id)  => {
   const result= await dbClient.query(DELETE_BY_ID,[id]);
   console.info(result)
   return result.rowCount > 0;
 };
 
-const create = async ({name, email, password, createdAt})  => {
-  const result= await dbClient.query(CREATE, [name, email, password, createdAt]);
+const create = async ({name, color,  ownerUserId, createdAt})  => {
+  const result= await dbClient.query(CREATE, [name, color,  ownerUserId, createdAt]);
   console.info(result)
   return result.rows[0];
 };
@@ -45,8 +37,8 @@ const countByName= async (name)  => {
   return count;
 };
 
-const fullUpdateById= async ({name, email, password, id})  => {
-  const result= await dbClient.query(FULL_UPDATE_BY_ID, [name, email, password, id]);
+const fullUpdateById= async ({id, name, color})  => {
+  const result= await dbClient.query(FULL_UPDATE_BY_ID, [name, color, id]);
   return result.rowCount > 0;
 };
 
@@ -62,7 +54,6 @@ const countByNameNotId= async (name, id)  => {
 return{
     getAll,
     getById,
-    getByEmail,
     deleteById,
     create,
     countByName,

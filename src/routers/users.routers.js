@@ -12,9 +12,9 @@ const usersRouter = () =>{
 
    router.get("/users", passport.authenticate("jwt", { session: false }), continuator(controller.getAll));
    router.get("/users/:id", passport.authenticate("jwt", { session: false }), continuator(controller.getById));
-   router.post("/users", passport.authenticate("jwt", { session: false }), continuator(controller.create));
+   router.post("/users", continuator(controller.create));
    router.delete("/users/:id", passport.authenticate("jwt", { session: false }), continuator(controller.deleteById));
-   router.put("/users/:id", passport.authenticate("jwt", { session: false }), continuator(controller.fullUpdateById));
+   router.put("/users/:id", continuator(controller.fullUpdateById));
    return router
 }
 

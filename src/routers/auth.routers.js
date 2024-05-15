@@ -11,6 +11,7 @@ const AuthRouter = () =>{
 
    router.post("/auth/login", continuator(controllerAuth.login));
    //router.get("/auth/health", (req, res)=>{res.status(200).json()})
+   router.post("/auth/create", continuator(controllerAuth.create));
    console.log("********************************")
    
    return router

@@ -20,7 +20,7 @@ const getById= async (id)  => {
 
 const getByEmail= async (email)  => {
   const result= await dbClient.query(GET_BY_EMAIL,[email]);
-  console.log("consulta base", result);
+  console.log(result);
   return result.rows[0];
 };
 

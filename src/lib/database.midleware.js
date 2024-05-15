@@ -1,4 +1,5 @@
 // require router del paquete express-promise-router
+//para conctarme a la base de datos
 import pg from 'pg'
 //import "dotenv/config";
 const { Pool } = pg;

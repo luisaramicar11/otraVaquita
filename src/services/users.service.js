@@ -22,12 +22,12 @@ const Service = (dbClient) =>{
 
      const create = async (user) => {
         //validaciones de campos
-        const name=validateName(user.name)
+        //const name=validateName(user.name)
          //validaciones con la base de datos
-        const userCount = await repository.countByName(name)
-        if(userCount>0){
+        //const userCount = await repository.countByName(name)
+       /*  if(userCount>0){
             throw AppError("Ya existe un usuario con ese nombre", 409)
-        }
+        } */
         return await repository.create(user); 
      }
 
