@@ -1,9 +1,13 @@
-import Service from "../services/groups.service.js"
+import Service from "../services/groups.service.js";
+import jsonWebToken from "jsonwebtoken";
 const Controller = () => {
         const getAll = async (req, res)=>{
             const service = Service(req.dbClient);
-          
-                const  groups = await service.getAll();
+            const authHeader = req.headers['authorization'].replace("Bearer ", "").trim();
+            console.log(authHeader)
+                const claims = jsonWebToken.decode(authHeader);
+                console.log(claims)
+                const  groups = await service.getAll(claims["id"]);
                 console.info(groups);
                 res.status(200).json(groups);
             }  
@@ -30,6 +34,7 @@ const Controller = () => {
             }
 
             const create = async (req, res)=>{
+                console.log("llegue al backen")
                 const service = Service(req.dbClient)
                 const group=req.body;
                 const createdGroup=await service.create(group)
@@ -37,6 +42,7 @@ const Controller = () => {
             }
 
             const fullUpdateById = async (req, res)=>{
+                console.log("llegue a actualizar", req.body)
                 const service = Service(req.dbClient)
                 const id=req.params.id
                 const group={

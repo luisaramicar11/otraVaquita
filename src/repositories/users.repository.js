@@ -1,6 +1,8 @@
-const GET_ALL=`SELECT id, name, email, password FROM users`;
-const GET_BY_ID=`${GET_ALL} WHERE id= $1`;
-const GET_BY_EMAIL=`${GET_ALL} WHERE email= $1`;
+const GET_ALL=`SELECT distinct us.id, us.name, us.email, us.password FROM users us
+LEFT JOIN usergroup ug on ug.userid = us.id 
+where ($1 = 0 OR ug.groupid =  $1)`;
+const GET_BY_ID=`SELECT us.id, us.name, us.email, us.password FROM users us WHERE id= $1`;
+const GET_BY_EMAIL=`SELECT us.id, us.name, us.email, us.password FROM users us WHERE email= $1`;
 const COUNT_BY_NAME=`SELECT COUNT(*) as count FROM users WHERE name=$1`;
 const DELETE_BY_ID=`DELETE FROM users WHERE id=$1`;
 const CREATE=`INSERT INTO users (name, email, password, createdAt) VALUES ($1,$2,$3,$4) RETURNING id, name, email,  password, createdAt`;
@@ -8,8 +10,8 @@ const FULL_UPDATE_BY_ID=`UPDATE users SET name=$1, email=$2, password=$3 WHERE i
 const COUNT_BY_NAME_NOT_ID=`SELECT COUNT(*) FROM users WHERE name=$1 and id <> $2`;
 
 const Repository=(dbClient)=>{
-const getAll= async ()  => {
-  const result= await dbClient.query(GET_ALL);
+const getAll= async (groupId)  => {
+  const result= await dbClient.query(GET_ALL,[groupId]);
   return result.rows;
 };
 

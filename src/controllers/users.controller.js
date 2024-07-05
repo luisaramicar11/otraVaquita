@@ -2,8 +2,8 @@ import Service from "../services/users.service.js";
 const Controller = () => {
         const getAll = async (req, res)=>{
             const service = Service(req.dbClient);
-          
-                const  users = await service.getAll();
+            const groupId = req.query.groupId || 0;
+                const  users = await service.getAll(groupId);
                 console.info(users);
                 res.status(200).json(users);
             }  
@@ -32,6 +32,7 @@ const Controller = () => {
             const create = async (req, res)=>{
                 const service = Service(req.dbClient)
                 const user=req.body;
+                user["createdAt"]=new Date()
                 const createdUser=await service.create(user)
                 res.status(201).json(createdUser); 
             }

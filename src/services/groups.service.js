@@ -4,8 +4,8 @@ const Service = (dbClient) =>{
 
     const repository=Repository(dbClient);
 
-    const getAll = async () => {
-       return await repository.getAll(); 
+    const getAll = async (ownerUserId) => {
+       return await repository.getAll(ownerUserId); 
     }
 
     const getById = async (id) => {
@@ -24,7 +24,8 @@ const Service = (dbClient) =>{
         if(groupCount>0){
             throw AppError("Ya existe un grupo con ese nombre", 409)
         }
-        return await repository.create(group); 
+        console.log(group)
+        return await repository.create({...group}); 
      }
 
      const fullUpdateById = async (group) => {
@@ -42,10 +43,9 @@ const Service = (dbClient) =>{
         if(groupCount>0){
             throw AppError("Ya existe otro grupo con ese nombre", 409)
         }
-
+        console.log("estoy en el servicio actualizando", group)
         return await repository.fullUpdateById({
-            ...group,
-            name
+            ...group
         })
      }
 

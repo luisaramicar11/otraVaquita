@@ -4,8 +4,8 @@ const Service = (dbClient) =>{
 
     const repository=Repository(dbClient);
 
-    const getAll = async () => {
-       return await repository.getAll(); 
+    const getAll = async (groupId) => {
+       return await repository.getAll(groupId); 
     }
 
     const getById = async (id) => {
