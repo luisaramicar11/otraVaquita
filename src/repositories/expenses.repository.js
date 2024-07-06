@@ -34,6 +34,7 @@ const Repository = (dbClient) => {
     return queries.rows;
   };
 
+
   return {
     createExpense,
     createUserExpense,

@@ -1,4 +1,7 @@
-const GET_ALL=`SELECT g.id, g.name, g.color, COUNT(ug.userid) friends 
+const GET_ALL=`SELECT g.id, g.name, g.color, COUNT(ug.userid) friends,
+(select SUM(CASE WHEN ue.ispaid  THEN -ue.value ELSE ue.value END) AS total_value from userexpense ue
+INNER JOIN expenses e ON e.id=ue.expenseid
+where ue.userid = $1 and e.groupid=g.id)
 FROM groups g
 LEFT JOIN usergroup ug ON g.id = ug.groupid
 WHERE g.owneruserid = $1
