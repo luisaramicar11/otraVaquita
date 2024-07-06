@@ -4,6 +4,10 @@ const Service = (dbClient) =>{
 
     const repository=Repository(dbClient);
 
+    const getAllUsers = async (owneruserid) => {
+        return await repository.getAllUsers(owneruserid); 
+     }
+
     const getAll = async (groupId) => {
        return await repository.getAll(groupId); 
     }
@@ -72,7 +76,8 @@ const Service = (dbClient) =>{
         getByEmail,
         deleteById,
         create,
-        fullUpdateById
+        fullUpdateById,
+        getAllUsers,
     }
 }
 

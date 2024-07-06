@@ -1,5 +1,16 @@
 import Service from "../services/users.service.js";
+import jsonWebToken from "jsonwebtoken";
 const Controller = () => {
+    const getAllUsers = async (req, res)=>{
+        const service = Service(req.dbClient);
+        const authHeader = req.headers['authorization'].replace("Bearer ", "").trim();
+        console.log(authHeader)
+        const claims = jsonWebToken.decode(authHeader);
+        console.log(claims)
+        const  users = await service.getAllUsers(claims["id"]);
+        console.info(users);
+        res.status(200).json(users);
+        }  
         const getAll = async (req, res)=>{
             const service = Service(req.dbClient);
             const groupId = req.query.groupId || 0;
@@ -57,7 +68,8 @@ const Controller = () => {
                 getById,
                 deleteById,
                 create,
-                fullUpdateById
+                fullUpdateById,
+                getAllUsers
             }
         }
     

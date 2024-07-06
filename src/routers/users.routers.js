@@ -11,6 +11,7 @@ const usersRouter = () =>{
    const controller=Controller();
 
    router.get("/users", passport.authenticate("jwt", { session: false }), continuator(controller.getAll));
+   router.get("/friends", passport.authenticate("jwt", { session: false }), continuator(controller.getAllUsers));
    router.get("/users/:id", passport.authenticate("jwt", { session: false }), continuator(controller.getById));
    router.post("/users", continuator(controller.create));
    router.delete("/users/:id", passport.authenticate("jwt", { session: false }), continuator(controller.deleteById));

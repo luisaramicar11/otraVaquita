@@ -1,3 +1,5 @@
+const GET_ALL_USERS=`SELECT distinct us.id, us.name, us.email, us.password FROM users us
+where us.id != $1`;
 const GET_ALL=`SELECT distinct us.id, us.name, us.email, us.password FROM users us
 LEFT JOIN usergroup ug on ug.userid = us.id 
 where ($1 = 0 OR ug.groupid =  $1)`;
@@ -10,6 +12,12 @@ const FULL_UPDATE_BY_ID=`UPDATE users SET name=$1, email=$2, password=$3 WHERE i
 const COUNT_BY_NAME_NOT_ID=`SELECT COUNT(*) FROM users WHERE name=$1 and id <> $2`;
 
 const Repository=(dbClient)=>{
+
+const getAllUsers = async(owneruserid)=>{
+  const result= await dbClient.query(GET_ALL_USERS,[owneruserid]);
+  return result.rows;
+}
+
 const getAll= async (groupId)  => {
   const result= await dbClient.query(GET_ALL,[groupId]);
   return result.rows;
@@ -69,7 +77,8 @@ return{
     create,
     countByName,
     fullUpdateById,
-    countByNameNotId
+    countByNameNotId,
+    getAllUsers
 }
 }
 

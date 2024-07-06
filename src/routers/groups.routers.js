@@ -15,7 +15,7 @@ const GroupsRouter = () =>{
    router.get("/groups/:id", passport.authenticate("jwt", { session: false }), continuator(controller.getById));
    //router.get("/groups/:id",  continuator(controller.getById));
    router.post("/groups/:id/expenses", passport.authenticate("jwt", { session: false }),continuator(controller2.createExpense));
-   //router.get("/groups/:id/expenses", passport.authenticate("jwt", { session: false }),continuator(controller2.getExpenseDetails));
+   router.get("/groups/:id/expenses", passport.authenticate("jwt", { session: false }),continuator(controller2.getExpenseDetails));
    router.post("/groups", passport.authenticate("jwt", { session: false }),continuator(controller.create));
    router.delete("/groups/:id", passport.authenticate("jwt", { session: false }), continuator(controller.deleteById));
    router.put("/groups/:id", passport.authenticate("jwt", { session: false }),continuator(controller.fullUpdateById));
