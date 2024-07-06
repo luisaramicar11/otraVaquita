@@ -12,9 +12,12 @@ const Controller = () => {
                 res.status(200).json(groups);
             }  
             const getById = async (req, res)=>{
-
+                const authHeader = req.headers['authorization'].replace("Bearer ", "").trim();
+                console.log(authHeader)
+                    const claims = jsonWebToken.decode(authHeader);
+                    console.log(claims)
                 const service = Service(req.dbClient)
-                const  group = await service.getById(req.params.id);
+                const  group = await service.getById(claims["id"], req.params.id);
                 if(group){
                     res.status(200).json(group);
                 }else{

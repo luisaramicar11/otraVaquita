@@ -7,11 +7,26 @@ LEFT JOIN usergroup ug ON g.id = ug.groupid
 WHERE g.owneruserid = $1
 GROUP BY ug.groupid,g.id
 ORDER BY g.createdat DESC`;
-const GET_BY_ID=`SELECT g.id, g.name, g.color, COUNT(ug.userid) friends, g.owneruserid AS ownerGroup
-FROM groups g
-LEFT JOIN usergroup ug ON g.id = ug.groupid
-WHERE g.id = $1
-group by ug.groupid,g.id`;
+const GET_BY_ID=`SELECT 
+  g.id, 
+  g.name, 
+  g.color, 
+  COUNT(ug.userid) AS friends, 
+  g.owneruserid AS ownerGroup,
+  COALESCE(
+    (SELECT SUM(CASE WHEN ue.ispaid THEN -ue.value ELSE ue.value END) 
+     FROM userexpense ue
+     INNER JOIN expenses e ON e.id = ue.expenseid
+     WHERE e.groupid = g.id AND ue.userid = $1), 
+    0) AS total_value
+FROM 
+  groups g
+LEFT JOIN 
+  usergroup ug ON g.id = ug.groupid
+WHERE 
+  g.id = $2
+GROUP BY 
+  g.id`;
 const COUNT_BY_NAME=`SELECT COUNT(*) as count FROM groups WHERE name=$1`;
 const DELETE_BY_ID=`DELETE FROM groups WHERE id=$1`;
 const CREATE=`INSERT INTO groups (name, color, owneruserid, createdat) VALUES ($1,$2,$3,NOW()) RETURNING name, color, id`;
@@ -23,9 +38,9 @@ const getAll= async (ownerUserId)  => {
   return result.rows;
 };
 
-const getById= async (id)  => {
+const getById= async (ownerUserId, id)  => {
   console.log(id)
-  const result= await dbClient.query(GET_BY_ID,[id]);
+  const result= await dbClient.query(GET_BY_ID,[ownerUserId, id]);
 
   return result.rows[0];
 };

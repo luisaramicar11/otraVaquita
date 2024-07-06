@@ -8,8 +8,8 @@ const Service = (dbClient) =>{
        return await repository.getAll(ownerUserId); 
     }
 
-    const getById = async (id) => {
-        return await repository.getById(id); 
+    const getById = async (ownerUserId, id) => {
+        return await repository.getById(ownerUserId, id); 
      }
 
      const deleteById = async (id) => {
