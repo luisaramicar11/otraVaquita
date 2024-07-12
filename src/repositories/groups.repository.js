@@ -17,7 +17,7 @@ const GET_BY_ID=`SELECT
     (SELECT SUM(CASE WHEN ue.ispaid THEN -ue.value ELSE ue.value END) 
      FROM userexpense ue
      INNER JOIN expenses e ON e.id = ue.expenseid
-     WHERE e.groupid = g.id AND ue.userid = $1), 
+     WHERE e.groupid = g.id AND ue.userid = $1)
     0) AS total_value
 FROM 
   groups g
@@ -41,7 +41,8 @@ const getAll= async (ownerUserId)  => {
 const getById= async (ownerUserId, id)  => {
   console.log(id)
   const result= await dbClient.query(GET_BY_ID,[ownerUserId, id]);
-
+  console.log("estoy en el repositorio")
+  console.log(result.rows[0])
   return result.rows[0];
 };
 
@@ -67,7 +68,7 @@ const countByName= async (name)  => {
   return count;
 };
 
-const fullUpdateById= async ({id, name, color})  => {
+const fullUpdateById= async ({name, color, id})  => {
   console.log(FULL_UPDATE_BY_ID)
   const result= await dbClient.query(FULL_UPDATE_BY_ID, [name, color, id]);
   return result.rowCount > 0;

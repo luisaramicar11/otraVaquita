@@ -29,20 +29,7 @@ const Service = (dbClient) =>{
      }
 
      const fullUpdateById = async (group) => {
-
-        //validaciones de campos
-        const name= validateName(group.name)
-
-        //validaciones con la base de datos
-        const existingGroup = await repository.getById(group.id)
-        if(!existingGroup){
-            throw AppError("El grupo a modificar no existe", 404)
-        }
-
-        const groupCount = await repository.countByNameNotId(name, group.id)
-        if(groupCount>0){
-            throw AppError("Ya existe otro grupo con ese nombre", 409)
-        }
+               
         console.log("estoy en el servicio actualizando", group)
         return await repository.fullUpdateById({
             ...group

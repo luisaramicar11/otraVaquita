@@ -48,6 +48,7 @@ const Controller = () => {
                 console.log("llegue a actualizar", req.body)
                 const service = Service(req.dbClient)
                 const id=req.params.id
+                console.log(id, service)
                 const group={
                     ...req.body,
                     id
